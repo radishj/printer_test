@@ -5,12 +5,12 @@ const Types = require("../node-thermal-printer").types;
 async function example () {
   let printer = new ThermalPrinter({
     type: Types.EPSON,  // 'star' or 'epson'
-    interface: process.argv[2],
+    interface: 'tcp://192.168.0.30',
     options: {
       timeout: 1000
     },
     width: 48,                         // Number of characters in one line - default: 48
-    characterSet: 'SLOVENIA',          // Character set - default: SLOVENIA
+    characterSet: 'PC437_USA',          // Character set - default: SLOVENIA
     removeSpecialCharacters: false,    // Removes special characters - default: false
     lineCharacter: "-",                // Use custom character for drawing lines - default: -
   });
@@ -18,8 +18,8 @@ async function example () {
   let isConnected = await printer.isPrinterConnected();
   console.log("Printer connected:", isConnected);
 
-  printer.alignCenter();
-  await printer.printImage('./assets/olaii-logo-black-small.png');
+  //printer.alignCenter();
+  //await printer.printImage('../assets/olaii-logo-black-small.png');
 
   printer.alignLeft();
   printer.newLine();
@@ -69,10 +69,7 @@ async function example () {
 
   try {
     printer.printBarcode("4126570807191");
-    printer.code128("4126570807191", {
-      height: 50,
-      text: 1
-    });
+
     printer.beep();
   } catch (error) {
     console.error(error);
@@ -100,7 +97,7 @@ async function example () {
   ]);
 
   printer.cut();
-  printer.openCashDrawer();
+  //printer.openCashDrawer();
 
   try {
     await printer.execute();
@@ -111,4 +108,4 @@ async function example () {
 }
 
 
-example();
+module.exports.print = example;
