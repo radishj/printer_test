@@ -1,8 +1,18 @@
 const ThermalPrinter = require("../node-thermal-printer").printer;
 const Types = require("../node-thermal-printer").types;
 
-
-async function example () {
+var time = '';
+async function example (timen) {
+  var newTime = new Date().toTimeString();
+  if(time == newTime)
+  {
+    console.log("Duplicate print reclined.");
+    return;
+  }
+  else
+  {
+    time = newTime;
+  }
   let printer = new ThermalPrinter({
     type: Types.EPSON,  // 'star' or 'epson'
     interface: 'tcp://192.168.0.30',
@@ -16,7 +26,7 @@ async function example () {
   });
 
   let isConnected = await printer.isPrinterConnected();
-  console.log("Printer connected:", isConnected);
+  console.log("Printer connected"+timen+":", isConnected);
 
   //printer.alignCenter();
   //await printer.printImage('../assets/olaii-logo-black-small.png');
