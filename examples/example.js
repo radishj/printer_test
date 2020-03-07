@@ -12,6 +12,7 @@ async function example (timen) {
   else
   {
     time = newTime;
+    console.log("Printing... Time:", time);
   }
   let printer = new ThermalPrinter({
     type: Types.EPSON,  // 'star' or 'epson'
@@ -68,10 +69,7 @@ async function example (timen) {
   printer.println("This is double height");
   printer.setTextDoubleWidth();
   printer.println("This is double width");
-  printer.setTextQuadArea();
-  printer.println("This is quad");
-  printer.setTextSize(7,7);
-  printer.println("Wow");
+
   printer.setTextSize(0,0);
   printer.setTextNormal();
   printer.println("This is normal");
