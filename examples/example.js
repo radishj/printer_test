@@ -88,7 +88,7 @@ async function example (timen) {
 
   printer.newLine();
 
-  printer.leftRight("Left", "Right");
+  printer.leftRight("   Left", "Right   ");
 
   printer.table(["One", "Two", "Three", "Four"]);
 

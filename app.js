@@ -1,34 +1,22 @@
 //start();
-let printer = require('./examples/example');
+let printer = require('./printer');
 const http = require('http');
 
 http.createServer((request, response) => {
-  request.host = '127.0.0.1/printer'
-  const { headers, method, url } = request;
-  let body = [];
-  request.on('error', (err) => {
-    console.error(err);
-  }).on('data', (chunk) => {
-    body.push(chunk);
-  }).on('end', () => {
-    body = Buffer.concat(body).toString();
-    printer.print();
-    response.on('error', (err) => {
-      console.error(err);
-    });
-
-    response.statusCode = 200;
-    response.setHeader('Content-Type', 'application/json');
-    // Note: the 2 lines above could be replaced with this next one:
-    // response.writeHead(200, {'Content-Type': 'application/json'})
-
-    const responseBody = { headers, method, url, body };
-
-    response.write(JSON.stringify(responseBody));
-    response.end();
-    // Note: the 2 lines above could be replaced with this next one:
-    // response.end(JSON.stringify(responseBody))
-
-    // END OF NEW STUFF
-  });
+  if (request.method == 'POST') {
+    console.log('POST')
+    var body = ''
+    request.on('data', function(data) {
+      body += data;
+    })
+    request.on('end', function() {
+      console.log('Got Body');
+      data = JSON.parse(body);
+      //console.log(JSON.stringify(data,null,'   '));
+      printer.print(data);
+    })
+  } else {
+    //console.log('GET')
+  }
 }).listen(8081);
+console.log('Listen on: '+8081);
