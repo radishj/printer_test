@@ -1,5 +1,5 @@
-const ThermalPrinter = require("../node-thermal-printer").printer;
-const Types = require("../node-thermal-printer").types;
+const ThermalPrinter = require("node-thermal-printer").printer;
+const Types = require("node-thermal-printer").types;
 
 function sendCommand(printer, command){
     if(!command)
