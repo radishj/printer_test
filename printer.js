@@ -99,7 +99,7 @@ var time = '';
 var oldOrderID = '';
 async function print (data) {
   var newTime = new Date().toTimeString();
-  /*var newOrderID = data[0].orderID;
+  var newOrderID = data[0].orderID;
   if(oldOrderID == newOrderID)
   {
     console.log("Duplicate print declined. ID:"+newOrderID);
@@ -111,10 +111,10 @@ async function print (data) {
     oldOrderID = newOrderID;
     console.log("Printing... Time:", time,"; ID:",newOrderID,";\n");//,JSON.stringify(data,null,"   "));
 
-  }*/
+  }
   let printer = new ThermalPrinter({
     type: Types.EPSON,  // 'star' or 'epson'
-    interface: 'tcp://192.168.0.60',
+    interface: 'tcp://192.168.192.169',
     options: {
       timeout: 1000
     },
@@ -132,8 +132,7 @@ async function print (data) {
   line = 0;
   data.forEach(command => {
     var res={};
-    if(line>=0){
-    //if(line>0){
+    if(line>0){
         console.log('line:'+line+'; '+JSON.stringify(command));
         res = sendCommand(printer,command);
     }
