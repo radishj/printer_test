@@ -2,6 +2,8 @@ const ThermalPrinter = require("node-thermal-printer").printer;
 const Types = require("node-thermal-printer").types;
 
 function sendCommand(printer, command){
+    console.log('command:',JSON.stringify(command));
+    
     if(!command)
     {
         return {result:false,msg:'Error: command is null'};
@@ -94,21 +96,25 @@ function sendCommand(printer, command){
     return res;
 }
 var time = '';
+var oldOrderID = '';
 async function print (data) {
   var newTime = new Date().toTimeString();
-  if(time == newTime)
+  /*var newOrderID = data[0].orderID;
+  if(oldOrderID == newOrderID)
   {
-    console.log("Duplicate print reclined.");
+    console.log("Duplicate print declined. ID:"+newOrderID);
     return;
   }
   else
   {
     time = newTime;
-    console.log("Printing... Time:", time);
-  }
+    oldOrderID = newOrderID;
+    console.log("Printing... Time:", time,"; ID:",newOrderID,";\n");//,JSON.stringify(data,null,"   "));
+
+  }*/
   let printer = new ThermalPrinter({
     type: Types.EPSON,  // 'star' or 'epson'
-    interface: 'tcp://192.168.0.30',
+    interface: 'tcp://192.168.0.60',
     options: {
       timeout: 1000
     },
@@ -125,8 +131,12 @@ async function print (data) {
   //await printer.printImage('../assets/olaii-logo-black-small.png');
   line = 0;
   data.forEach(command => {
-    //console.log(JSON.stringify(command));
-    var res = sendCommand(printer,command);
+    var res={};
+    if(line>=0){
+    //if(line>0){
+        console.log('line:'+line+'; '+JSON.stringify(command));
+        res = sendCommand(printer,command);
+    }
     if(!res.result)
     {
         console.log('line:'+line+'; '+res.msg);
