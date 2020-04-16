@@ -22,6 +22,7 @@ http.createServer((request, response) => {
       sleep(500);
       //console.log(JSON.stringify(data,null,'   '));
       //printer.print(data);
+      console.log('printing start...')
       printUSB();
     })
   } else {
